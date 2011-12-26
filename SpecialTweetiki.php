@@ -21,8 +21,15 @@ class SpecialTweetiki extends SpecialPage
         $token_credentials = $connection->getAccessToken($oauth_verifier);
         $url = $wikiurl . 'index.php?title=' . $wgRequest->getVal('urltitle');
         $curl = curl_init('https://www.googleapis.com/urlshortener/v1/url');
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, Array('Content-Type: application/json'));
+        $postdata = '{"longUrl": "' . $url . '"}';
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $postdata); 
+        $response = curl_exec($curl);
+        $response_array = json_decode($response, true);
+        $url = $response_array['id'];
         $text = 'I just edited a wiki page. Be bold, and edit. ' . $url;
-        $result = $connection->post('statuses/update',array('status' => $text));  
+        $result = $connection->post('statuses/update',array('status' => $text));
         $wgOut->setTitle('Tweetiki');
         $wgOut->addWikiText('Done');
     }
