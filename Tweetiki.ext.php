@@ -30,7 +30,9 @@ class Tweetiki
         $wgOut->includeJQuery();
         $params = 'urltitle=' . $editpage->mTitle->mUrlform;
         $login_link = Tweetiki::getLoginLink($params);
-        $script = '$("#wpSave").click(function(){window.open("' . $login_link
+        $script = '$("#wpSave").click(function(){
+                      if($("#TweetThis").attr("checked"))
+                      window.open("' . $login_link
                    . '");});';
         $wgOut->addScript(Html::inlineScript($script));
         return true;
