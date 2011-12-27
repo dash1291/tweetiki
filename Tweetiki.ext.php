@@ -4,9 +4,8 @@ class Tweetiki
 {
     static function getLoginLink($params)
     {
-        $wiki_url = 'http://localhost/mediawiki/';
-        $connection = new TwitterOAuth('IPs4LAerAqSybJB9uOJ0A', 
-                      'pQngKocjGAp2FnTMly4GEMr8wc0Khu0ko9QhlEQSHI');
+        global $api_key, $api_secret, $wiki_url;
+        $connection = new TwitterOAuth($api_key, $api_secret);
         $temporary_credentials = $connection->getRequestToken($wiki_url .
                                  'index.php?title=Special:Tweetiki' . '&' .
                                  $params);
@@ -38,4 +37,4 @@ class Tweetiki
         return true;
     }
 }
-
+?>

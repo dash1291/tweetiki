@@ -10,16 +10,20 @@ class SpecialTweetiki extends SpecialPage
     function execute( $par )
     {
         global $wgRequest, $wgOut;
-        $wikiurl = 'http://localhost/mediawiki/';
+        if(!$wgRequest->getVal('oauth_token'))
+        {
+            $wgOut->addWikiText('Sorry! This is not the way this page is to be used.');
+            return;
+        }
+        global $api_key, $api_secret, $wiki_url;
         $this->setHeaders();
         $oauth_token = $wgRequest->getVal('oauth_token');
         $oauth_verifier = $wgRequest->getVal('oauth_verifier');
-      	$connection=new TwitterOAuth('IPs4LAerAqSybJB9uOJ0A', 
-                    'pQngKocjGAp2FnTMly4GEMr8wc0Khu0ko9QhlEQSHI',
-                    $oauth_token, $_SESSION['tw_oauth_token_secret']);
+      	$connection=new TwitterOAuth($api_key, $api_secret, $oauth_token,
+                    $_SESSION['tw_oauth_token_secret']);
         $token = $_SESSION['tw_oauth_token'];
         $token_credentials = $connection->getAccessToken($oauth_verifier);
-        $url = $wikiurl . 'index.php?title=' . $wgRequest->getVal('urltitle');
+        $url = $wiki_url . 'index.php?title=' . $wgRequest->getVal('urltitle');
         $curl = curl_init('https://www.googleapis.com/urlshortener/v1/url');
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, Array('Content-Type: application/json'));
@@ -31,7 +35,7 @@ class SpecialTweetiki extends SpecialPage
         $text = 'I just edited a wiki page. Be bold, and edit. ' . $url;
         $result = $connection->post('statuses/update',array('status' => $text));
         $wgOut->setTitle('Tweetiki');
-        $wgOut->addWikiText('Done');
+        $wgOut->addWikiText('Thanks! Its done.');
     }
 }
 ?>

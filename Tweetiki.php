@@ -12,5 +12,7 @@ $wgAutoloadClasses['SpecialTweetiki'] = $dir . 'SpecialTweetiki.php';
 $wgAutoloadClasses['Tweetiki'] = $dir . 'Tweetiki.ext.php';
 $wgSpecialPages['Tweetiki'] = 'SpecialTweetiki';
 $wgHooks['EditPageBeforeEditChecks'][] = 'Tweetiki::showTweetCheck';
-
+$wiki_url = '<yourmediawikiurl>/ with trailing slash preserved';
+$api_key = 'Your Twitter App Key';
+$api_secret = 'Your Twitter App Secret';
 ?>
