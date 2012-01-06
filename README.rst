@@ -10,7 +10,7 @@ Append the following line to your **LocalSettings.php**
 Extension Variables
 -------------------
 
-You'll need to set your extension variables in your **$WIKI_DIR/extensions/Tweetiki/Tweetiki.php**
+You'll need to set your extension variables in your **LocalSettings.php**
 
 - ``$wiki_url`` - Url to your MediaWiki installation with trailing slash preserved.
 - ``$api_key`` - The api key of your Twitter app.
